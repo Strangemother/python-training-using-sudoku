@@ -2,43 +2,35 @@ import copy
 import time
 
 def count_wave_bits(items: set) -> set:
-    all_cell_bits = set(items)
-    cheese = set(range(1,10))
-    cheese = cheese - all_cell_bits
-    return cheese
+
+    # for each in line_x:
+    #     if each in self.wave:
+    #         self.wave.remove(each)
+
+    # for each in line_y:
+    #     if each in self.wave:
+    #         self.wave.remove(each)
+
+    # for each in label:
+    #     if each in self.wave:
+    #         self.wave.remove(each)
+
+    # for item in iterable:
+    #     if item in wave:
+    #         wave.remove(item)
+
+    cell_bits = set(items)
+    all_items = set(range(1,10))
+    all_items = all_items - cell_bits
+    return all_items
+
 
 class Cell(object):
 
     def __init__(self, line_x, line_y, label):
         self.wave:set = set(range(1,10))
-
-
-        # for each in line_x:
-        #     if each in self.wave:
-        #         self.wave.remove(each)
-
-        # for each in line_y:
-        #     if each in self.wave:
-        #         self.wave.remove(each)
-
-        # for each in label:
-        #     if each in self.wave:
-        #         self.wave.remove(each)
-
-        # for item in iterable:
-        #     if item in wave:
-        #         wave.remove(item)
-
-
-        # print('wave', self.wave)
-        # print('wave', wave)
-
-        all_cell_bits = set(line_x + line_y + label)
-        # wave = set(range(1,10))
-        # wave = wave - all_cell_bits
-        self.wave = count_wave_bits(all_cell_bits)
-
-        # assert self.wave == wave, f"{self.wave} != {wave}"
+        cell_bits = set(line_x + line_y + label)
+        self.wave = count_wave_bits(cell_bits)
         self.count = len(self.wave)
 
     def pop(self):
@@ -53,12 +45,37 @@ class Cell(object):
 
 class Sudoku(object):
     def __init__(self, array):
-        self.i = 0 #循环次数
-        self.num = 0 #解的个数
+        self.i = 0
+        self.num = 0
         self.solvable = False
         self.result = array
-        self.process = [] #作为一个栈
-        self.array = [[] for _ in range(9)] #记录每点可选的值
+        self.process = []
+        self.array = [[] for _ in range(9)]
+
+        self.run_x()
+
+    def run_x(self):
+        for x in range(9):
+            self.run_y(x)
+
+    def run_y(self, x):
+        for y in range(9):
+            self.update_array(x,y)
+
+    def update_array(self, x,y):
+        if self.result[x][y] != 0:
+            self.array[x].append(0)
+            return
+
+        label = []
+        for x1 in range(x-x%3, x-x%3+3):
+            for y1 in range(y-y%3, y-y%3+3):
+                label.append(self.result[x1][y1])
+
+        self.array[x].append(Cell(self.result[x], [self.result[i][y] for i in range(9)], label))
+
+    def old_code(self):
+
         for x in range(9):
             for y in range(9):
                 if self.result[x][y] != 0:
