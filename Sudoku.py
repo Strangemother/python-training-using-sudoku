@@ -67,12 +67,21 @@ class Sudoku(object):
             self.array[x].append(0)
             return
 
+        return self.add_cell_to_array(self, x,y)
+
+    def add_cell_to_array(self, x,y):
         label = []
-        for x1 in range(x-x%3, x-x%3+3):
-            for y1 in range(y-y%3, y-y%3+3):
+        xm3 = x - x % 3
+        ym3 = y - y % 3
+
+        for x1 in range(xm3, xm3+3):
+            for y1 in range(ym3, ym3+3):
                 label.append(self.result[x1][y1])
 
-        self.array[x].append(Cell(self.result[x], [self.result[i][y] for i in range(9)], label))
+        line_y_stuff = [self.result[i][y] for i in range(9)]
+        cell = Cell(self.result[x], line_y_stuff, label)
+        self.array[x].append(cell)
+
 
     def old_code(self):
 
