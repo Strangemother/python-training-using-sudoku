@@ -1,38 +1,44 @@
 import copy
 import time
 
+def count_wave_bits(items: set) -> set:
+    all_cell_bits = set(items)
+    cheese = set(range(1,10))
+    cheese = cheese - all_cell_bits
+    return cheese
 
 class Cell(object):
 
     def __init__(self, line_x, line_y, label):
-        self.wave = set(range(1,10))
+        self.wave:set = set(range(1,10))
 
 
-        for each in line_x:
-            if each in self.wave:
-                self.wave.remove(each)
+        # for each in line_x:
+        #     if each in self.wave:
+        #         self.wave.remove(each)
 
-        for each in line_y:
-            if each in self.wave:
-                self.wave.remove(each)
+        # for each in line_y:
+        #     if each in self.wave:
+        #         self.wave.remove(each)
 
-        for each in label:
-            if each in self.wave:
-                self.wave.remove(each)
+        # for each in label:
+        #     if each in self.wave:
+        #         self.wave.remove(each)
 
         # for item in iterable:
         #     if item in wave:
         #         wave.remove(item)
-        #
+
 
         # print('wave', self.wave)
         # print('wave', wave)
 
         all_cell_bits = set(line_x + line_y + label)
-        wave = set(range(1,10))
-        wave = wave - all_cell_bits
+        # wave = set(range(1,10))
+        # wave = wave - all_cell_bits
+        self.wave = count_wave_bits(all_cell_bits)
 
-        assert self.wave == wave, f"{self.wave} != {wave}"
+        # assert self.wave == wave, f"{self.wave} != {wave}"
         self.count = len(self.wave)
 
     def pop(self):
