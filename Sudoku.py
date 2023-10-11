@@ -67,7 +67,7 @@ class Sudoku(object):
             self.array[x].append(0)
             return
 
-        return self.add_cell_to_array(self, x,y)
+        return self.add_cell_to_array(x,y)
 
     def add_cell_to_array(self, x,y):
         label = []
