@@ -53,6 +53,7 @@ class Sudoku(object):
         self.array = [[] for _ in range(9)]
 
         self.run_x()
+        # self.old_code()
 
     def run_x(self):
         for x in range(9):
@@ -82,9 +83,7 @@ class Sudoku(object):
         cell = Cell(self.result[x], line_y_stuff, label)
         self.array[x].append(cell)
 
-
     def old_code(self):
-
         for x in range(9):
             for y in range(9):
                 if self.result[x][y] != 0:
@@ -101,28 +100,37 @@ class Sudoku(object):
         pos = [-1,-1]
         for x in range(9):
             for y in range(9):
-                if self.array[x][y] == 0:
-                    continue
-                elif choice == -1 or choice > self.array[x][y].count:
-                    choice = self.array[x][y].count
-                    pos = [x, y]
+                choice, pos = self.do_pos_choice(x,y, choice)
         return [choice, pos]
+
+    def do_pos_choice(self, x,y, choice):
+        if self.array[x][y] == 0:
+            return
+        elif choice == -1 or choice > self.array[x][y].count:
+            choice = self.array[x][y].count
+            pos = [x, y]
+        return choice, pos
 
     def influnence(self, num, x ,y):
         self.array[x][y] = 0
         label = []
+
         for x1 in range(x-x%3, x-x%3+3):
             for y1 in range(y-y%3, y-y%3+3):
                 label.append([x1, y1])
+
         for x1 in range(9):
            if x1 != x and self.array[x1][y] != 0:
                 self.array[x1][y].remove(num)
+
         for y1 in range(9):
             if y1 != y and self.array[x][y1] != 0:
                 self.array[x][y1].remove(num)
+
         for pos in label:
             x1 = pos[0]
             y1 = pos[1]
+
             if (x1 != x or y1 != y) and self.array[x1][y1] != 0:
                 self.array[x1][y1].remove(num)
 
