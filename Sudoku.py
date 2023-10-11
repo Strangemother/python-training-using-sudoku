@@ -100,12 +100,12 @@ class Sudoku(object):
         pos = [-1,-1]
         for x in range(9):
             for y in range(9):
-                choice, pos = self.do_pos_choice(x,y, choice)
+                choice, pos = self.do_pos_choice(x,y, choice, pos)
         return [choice, pos]
 
-    def do_pos_choice(self, x,y, choice):
+    def do_pos_choice(self, x,y, choice, pos):
         if self.array[x][y] == 0:
-            return
+            return choice, pos
         elif choice == -1 or choice > self.array[x][y].count:
             choice = self.array[x][y].count
             pos = [x, y]
